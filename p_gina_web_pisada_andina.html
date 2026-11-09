@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pisada Andina - Calzado Artesanal & Exclusivo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        andina: {
+                            dark: '#0d0705',
+                            brown: '#1a100a',
+                            gold: '#d4af37',
+                            goldlight: '#f3e5ab',
+                            golddark: '#aa8c2c',
+                            accent: '#8c6d1f',
+                            cream: '#fdfbf7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #0d0705;
+            color: #fdfbf7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .andino-bg-pattern {
+            background-color: #120906;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, rgba(13, 7, 5, 0.85) 70%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23d4af37' stroke-width='0.9' stroke-opacity='0.35'%3E%3Crect x='15' y='15' width='570' height='570' stroke-width='2' stroke-opacity='0.7'/%3E%3Cpath d='M300 15 L585 300 L300 585 L15 300 Z'/%3E%3Cpath d='M300 80 L520 300 L300 520 L80 300 Z'/%3E%3Cpath d='M15 15 L150 150 M585 15 L450 150 M15 585 L150 450 M585 585 L450 450'/%3E%3Cpath d='M300 15 L300 150 M300 450 L300 585 M15 300 L150 300 M450 300 L585 300'/%3E%3Cpath d='M150 150 L300 220 L450 150 L380 300 L450 450 L300 380 L150 450 L220 300 Z'/%3E%3Cpath d='M80 80 L200 200 M520 80 L400 200 M80 520 L200 400 M520 520 L400 400'/%3E%3Cpath d='M50 50 L120 50 L50 120 Z M550 50 L480 50 L550 120 Z M50 550 L120 550 L50 480 Z M550 550 L480 550 L550 480 Z'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: 600px 600px;
+            background-repeat: repeat;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #f3e5ab 30%, #d4af37 70%, #aa8c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.25);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-3d {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-3d::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        .btn-3d:hover::after {
+            left: 100%;
+        }
+        .btn-3d:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+
+        .carousel-3d-stage {
+            perspective: 1400px;
+            width: 100%;
+            height: 520px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .carousel-3d-track {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-3d-card {
+            position: absolute;
+            width: 280px;
+            height: 420px;
+            background: linear-gradient(145deg, #1f120c, #110804);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.95), 0 0 30px rgba(212, 175, 55, 0.2);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease, box-shadow 0.5s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        .carousel-3d-card:hover {
+            border-color: #f3e5ab;
+            box-shadow: 0 35px 70px rgba(0,0,0,1), 0 0 45px rgba(212, 175, 55, 0.5);
+        }
+    </style>
+</head>
+<body class="andino-bg-pattern min-h-screen flex flex-col justify-between selection:bg-andina-gold selection:text-andina-dark">
+
+    <!-- NAV BAR -->
+    <header class="sticky top-0 z-50 bg-andina-dark/95 backdrop-blur-md border-b border-andina-gold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Gesto secreto de 5 toques en el título principal -->
+                <div onclick="secretAdminTrigger()" class="flex items-center gap-3 group cursor-pointer select-none">
+                    <div class="w-12 h-12 rounded-xl border border-andina-gold/60 flex items-center justify-center bg-andina-brown overflow-hidden group-hover:scale-110 transition-transform shadow-xl">
+                        <img id="logo-img-nav" src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=200&q=80" alt="Pisada Andina Logo" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif font-bold text-xl sm:text-2xl tracking-widest gold-gradient-text">PISADA ANDINA</span>
+                        <span id="nav-subtitle" class="text-[10px] tracking-widest text-andina-goldlight uppercase -mt-1">Calzado Artesanal</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <nav class="hidden md:flex items-center space-x-8 font-medium">
+                        <a href="#inicio" class="text-andina-cream hover:text-andina-gold transition hover:scale-105">Inicio</a>
+                        <a href="#catalogo" class="text-andina-cream hover:text-andina-gold transition hover:scale-105">Catálogo 3D</a>
+                        <a href="#citas" class="text-andina-cream hover:text-andina-gold transition hover:scale-105">Agendar Cita</a>
+                        <a href="#contacto" class="text-andina-cream hover:text-andina-gold transition hover:scale-105">Contacto</a>
+                    </nav>
+
+                    <div class="hidden sm:flex items-center gap-3">
+                        <a id="nav-wa-btn" href="https://wa.me/593995142783" target="_blank" class="btn-3d bg-gradient-to-r from-andina-gold to-andina-golddark text-andina-dark font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Escríbenos
+                        </a>
+                    </div>
+
+                    <div class="md:hidden flex items-center gap-2">
+                        <button onclick="toggleMobileMenu()" class="p-2 text-andina-gold hover:text-white focus:outline-none">
+                            <i class="fa-solid fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-andina-brown border-b border-andina-gold/30 px-4 pt-2 pb-4 space-y-3">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block text-andina-cream hover:text-andina-gold py-1">Inicio</a>
+            <a href="#catalogo" onclick="toggleMobileMenu()" class="block text-andina-cream hover:text-andina-gold py-1">Catálogo 3D</a>
+            <a href="#citas" onclick="toggleMobileMenu()" class="block text-andina-cream hover:text-andina-gold py-1">Agendar Cita</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block text-andina-cream hover:text-andina-gold py-1">Contacto</a>
+            <a id="mobile-wa-btn" href="https://wa.me/593995142783" target="_blank" class="btn-3d inline-flex items-center gap-2 w-full justify-center bg-andina-gold text-andina-dark font-bold py-2 rounded-lg mt-2">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative py-20 lg:py-28 overflow-hidden border-b border-andina-gold/25">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-andina-gold/50 bg-andina-brown/80 text-andina-gold text-xs font-semibold tracking-wider uppercase shadow-md">
+                        <i class="fa-solid fa-crown text-xs"></i> <span id="hero-badge">Tradición & Elegancia</span>
+                    </div>
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight" id="hero-title">
+                        Cada paso refleja tu <span class="gold-gradient-text">Esencia Andina</span>
+                    </h1>
+                    <p class="text-andina-goldlight/90 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light" id="hero-desc">
+                        Diseños exclusivos, materiales de alta calidad y la dedicación artesanal que tus pies merecen. Encuentra la combinación perfecta entre estilo moderno y resistencia.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                        <a href="#catalogo" class="btn-3d bg-gradient-to-r from-andina-gold via-andina-accent to-andina-golddark text-andina-dark font-bold px-8 py-3.5 rounded-lg text-center shadow-lg">
+                            Explorar Catálogo 3D
+                        </a>
+                        <a href="#citas" class="btn-3d border border-andina-gold text-andina-gold hover:bg-andina-gold/10 font-semibold px-8 py-3.5 rounded-lg text-center">
+                            Agendar Cita
+                        </a>
+                    </div>
+
+                    <div class="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-andina-goldlight/80 text-sm">
+                        <span class="flex items-center gap-2 text-white">
+                            <i class="fa-solid fa-location-dot text-andina-gold"></i> <span id="hero-location-text">Ecuador</span>
+                        </span>
+                        <a id="hero-tiktok-link" href="https://www.tiktok.com/@pisada_andinaec2" target="_blank" class="flex items-center gap-2 text-white hover:text-andina-gold transition hover:scale-105">
+                            <i class="fa-brands fa-tiktok text-xl text-andina-gold"></i> <span id="hero-tiktok-text">pisada_andinaec2</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative flex justify-center">
+                    <div class="w-80 h-80 sm:w-96 sm:h-96 rounded-2xl bg-gradient-to-br from-andina-brown via-andina-dark to-andina-brown border-2 border-andina-gold/70 p-3 flex flex-col items-center justify-center text-center relative custom-card-shadow overflow-hidden animate-float">
+                        <div class="w-full h-full relative z-10 rounded-xl overflow-hidden shadow-2xl bg-black flex items-center justify-center border border-andina-gold/40">
+                            <img id="logo-img-hero" src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80" alt="Logo Oficial Pisada Andina" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CATÁLOGO 3D INTERACTIVO -->
+    <section id="catalogo" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="text-xs uppercase tracking-widest text-andina-gold font-bold px-3 py-1 rounded-full border border-andina-gold/40 bg-andina-brown/60">Experiencia Inmersiva 3D</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-extrabold gold-gradient-text mt-3">Colección Exclusiva</h2>
+            <p class="text-andina-goldlight/80 mt-2 text-sm sm:text-base">Navega por nuestro carrusel interactivo y haz clic en cualquier calzado para desplegar la vista en pantalla gigante.</p>
+            
+            <div class="flex justify-center mt-8 gap-4">
+                <button id="tab-hombre" onclick="switchTab('hombre')" class="btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg bg-andina-gold text-andina-dark">
+                    <i class="fa-solid fa-mars text-lg"></i> Calzado Hombre
+                </button>
+                <button id="tab-mujer" onclick="switchTab('mujer')" class="btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg text-andina-gold hover:bg-andina-gold/10">
+                    <i class="fa-solid fa-venus text-lg"></i> Calzado Mujer
+                </button>
+            </div>
+        </div>
+
+        <!-- CARRUSEL 3D -->
+        <div class="carousel-3d-stage my-6">
+            <button onclick="rotateCarousel(-1)" class="absolute left-2 sm:left-10 z-30 w-14 h-14 rounded-full bg-andina-brown/90 border-2 border-andina-gold text-andina-gold flex items-center justify-center hover:bg-andina-gold hover:text-andina-dark transition-all shadow-2xl hover:scale-110">
+                <i class="fa-solid fa-chevron-left text-xl"></i>
+            </button>
+            <div id="carousel-track" class="carousel-3d-track">
+                <!-- Generado dinámicamente -->
+            </div>
+            <button onclick="rotateCarousel(1)" class="absolute right-2 sm:right-10 z-30 w-14 h-14 rounded-full bg-andina-brown/90 border-2 border-andina-gold text-andina-gold flex items-center justify-center hover:bg-andina-gold hover:text-andina-dark transition-all shadow-2xl hover:scale-110">
+                <i class="fa-solid fa-chevron-right text-xl"></i>
+            </button>
+        </div>
+
+        <div class="text-center mt-6">
+            <p class="text-xs text-andina-goldlight/60 tracking-wider">💡 Desliza o usa las flechas laterales para girar el escaparate 3D</p>
+        </div>
+
+    </section>
+
+    <!-- MODAL DE PANTALLA GIGANTE PARA ZAPATO SELECCIONADO -->
+    <div id="fullscreen-product-modal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4 sm:p-8">
+        <div class="relative w-full max-w-5xl bg-gradient-to-br from-andina-brown via-andina-dark to-andina-brown border-2 border-andina-gold rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-2">
+            
+            <button onclick="closeFullscreenModal()" class="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-andina-dark/80 border border-andina-gold text-andina-gold flex items-center justify-center text-xl hover:bg-andina-gold hover:text-andina-dark transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="relative h-72 sm:h-96 lg:h-full bg-black/60 flex items-center justify-center p-8 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-andina-gold/20 via-transparent to-transparent pointer-events-none"></div>
+                <img id="modal-zoom-img" src="" alt="Zapato Seleccionado" class="max-h-full max-w-full object-contain filter drop-shadow-[0_20px_30px_rgba(212,175,55,0.4)] animate-float">
+            </div>
+
+            <div class="p-8 lg:p-12 flex flex-col justify-between space-y-6">
+                <div>
+                    <span id="modal-zoom-cat" class="text-xs uppercase tracking-widest text-andina-gold font-bold px-3 py-1 rounded-full border border-andina-gold/40 bg-andina-dark">Categoría</span>
+                    <h3 id="modal-zoom-title" class="font-serif text-3xl sm:text-4xl font-extrabold text-white mt-4">Nombre del Zapato</h3>
+                    <div id="modal-zoom-price" class="text-2xl sm:text-3xl font-serif font-bold gold-gradient-text mt-2">$0.00</div>
+                    <p id="modal-zoom-desc" class="text-andina-goldlight/80 text-base mt-4 leading-relaxed">Descripción detallada del calzado artesanal.</p>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-andina-gold/20">
+                    <a id="modal-zoom-wa-btn" href="#" target="_blank" class="btn-3d w-full bg-gradient-to-r from-andina-gold via-andina-accent to-andina-golddark text-andina-dark font-bold py-4 rounded-xl text-center shadow-2xl text-base flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i> Comprar / Consultar por WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE AGENDAMIENTO DE CITAS -->
+    <section id="citas" class="py-20 bg-andina-brown/40 border-t border-b border-andina-gold/25 relative">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="font-serif text-3xl font-bold gold-gradient-text">Agendar Cita o Pedido</h2>
+                <p class="text-andina-goldlight/80 mt-2">Reserva tu espacio o solicita una atención personalizada</p>
+            </div>
+
+            <form id="appointment-form" onsubmit="handleAppointmentSubmit(event)" class="bg-andina-brown border border-andina-gold/40 rounded-2xl p-6 sm:p-8 space-y-6 custom-card-shadow">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Tu Nombre *</label>
+                        <input type="text" id="app-name" required placeholder="Nombre completo" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-andina-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Teléfono / WhatsApp *</label>
+                        <input type="tel" id="app-phone" required placeholder="+593 ..." class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-andina-gold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Fecha Preferida *</label>
+                        <input type="date" id="app-date" required class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-andina-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Hora *</label>
+                        <input type="time" id="app-time" required class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-andina-gold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Notas o Talla Específica</label>
+                    <textarea id="app-notes" rows="3" placeholder="Indica talla, modelo o consulta especial..." class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-andina-gold"></textarea>
+                </div>
+
+                <button type="submit" class="btn-3d w-full bg-gradient-to-r from-andina-gold to-andina-golddark text-andina-dark font-bold py-3.5 rounded-lg shadow-lg text-base">
+                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Enviar Cita por WhatsApp
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- SECCIÓN CONTACTO Y REDES -->
+    <section id="contacto" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="font-serif text-3xl font-bold gold-gradient-text">Contacto y Ubicación</h2>
+            <p class="text-andina-goldlight/80 mt-2">Estamos listos para atender todas tus consultas</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-andina-brown border border-andina-gold/30 rounded-xl p-8 flex items-center gap-6 custom-card-shadow">
+                <div class="w-16 h-16 rounded-full bg-andina-gold/10 border border-andina-gold flex items-center justify-center text-andina-gold text-2xl flex-shrink-0 shadow-inner">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white">Escríbenos</h4>
+                    <p class="text-sm text-andina-goldlight/70 mb-2">WhatsApp</p>
+                    <a id="card-wa-link" href="https://wa.me/593995142783" target="_blank" class="text-andina-gold font-bold text-base hover:underline">
+                        <span id="card-phone-text">+593 995142783</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-andina-brown border border-andina-gold/30 rounded-xl p-8 flex items-center gap-6 custom-card-shadow">
+                <div class="w-16 h-16 rounded-full bg-andina-gold/10 border border-andina-gold flex items-center justify-center text-andina-gold text-2xl flex-shrink-0 shadow-inner">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white">Ubicación</h4>
+                    <p class="text-sm text-andina-goldlight/70 mb-2">Nuestra sede</p>
+                    <span id="card-location-text" class="text-andina-gold font-bold text-base">Ecuador</span>
+                </div>
+            </div>
+
+            <div class="bg-andina-brown border border-andina-gold/30 rounded-xl p-8 flex items-center gap-6 custom-card-shadow">
+                <div class="w-16 h-16 rounded-full bg-andina-gold/10 border border-andina-gold flex items-center justify-center text-andina-gold text-2xl flex-shrink-0 shadow-inner">
+                    <i class="fa-brands fa-tiktok"></i>
+                </div>
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-white">TikTok</h4>
+                    <p class="text-sm text-andina-goldlight/70 mb-2">Síguenos</p>
+                    <a id="card-tiktok-link" href="https://www.tiktok.com/@pisada_andinaec2" target="_blank" class="text-andina-gold font-bold text-base hover:underline">
+                        <span id="card-tiktok-text">@pisada_andinaec2</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-andina-dark border-t border-andina-gold/30 py-8 text-center text-andina-goldlight/60 text-sm">
+        <p>© 2026 Pisada Andina. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- MODAL DE ADMINISTRACIÓN Y EDICIÓN -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-andina-brown border-2 border-andina-gold rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl">
+            
+            <button onclick="toggleAdminModal()" class="absolute top-5 right-5 text-andina-goldlight hover:text-white text-2xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex border-b border-andina-gold/30 mb-6 gap-4">
+                <button onclick="switchAdminTab('products')" id="admin-tab-prod" class="pb-3 text-andina-gold font-serif font-bold text-base border-b-2 border-andina-gold">
+                    <i class="fa-solid fa-shoe-prints"></i> Gestionar Calzado
+                </button>
+                <button onclick="switchAdminTab('site')" id="admin-tab-site" class="pb-3 text-andina-goldlight/60 hover:text-andina-gold font-serif font-bold text-base border-b-2 border-transparent">
+                    <i class="fa-solid fa-sliders"></i> Datos Generales y Logo
+                </button>
+            </div>
+
+            <!-- SECCIÓN PRODUCTOS -->
+            <div id="admin-sec-products">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-serif text-xl font-bold text-white" id="modal-title">Gestionar Catálogo</h3>
+                    <button onclick="openAddModal()" class="text-xs bg-andina-gold text-andina-dark px-3 py-1.5 rounded font-bold">Nuevo +</button>
+                </div>
+                
+                <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4 mb-6 border-b border-andina-gold/20 pb-6">
+                    <input type="hidden" id="prod-id">
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Nombre del Calzado *</label>
+                        <input type="text" id="prod-name" required placeholder="Ej: Botín Andino" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-sm">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Categoría *</label>
+                            <select id="prod-category" required class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-sm">
+                                <option value="hombre">Hombre</option>
+                                <option value="mujer">Mujer</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Precio ($) *</label>
+                            <input type="number" step="0.01" id="prod-price" required placeholder="55.00" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Imagen (Seleccionar archivo o enlace)</label>
+                        <input type="file" id="prod-image-file" accept="image/*" onchange="handleProductFileSelect(event)" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2 text-white text-xs">
+                        <input type="hidden" id="prod-image">
+                        <input type="url" id="prod-image-url-text" placeholder="https://..." oninput="document.getElementById('prod-image').value = this.value" class="w-full mt-1 bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Descripción</label>
+                        <textarea id="prod-desc" rows="2" placeholder="Detalles..." class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-sm"></textarea>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="submit" class="btn-3d flex-1 bg-andina-gold text-andina-dark font-bold py-3 rounded-lg shadow-lg text-sm">Guardar Producto en Vivo</button>
+                    </div>
+                </form>
+
+                <div>
+                    <h4 class="font-serif text-base font-bold text-andina-gold mb-3">Zapatos Actuales en la Tienda</h4>
+                    <div id="admin-products-list" class="space-y-2 max-h-64 overflow-y-auto pr-2">
+                        <!-- Listado dinámico -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DATOS SITIO -->
+            <div id="admin-sec-site" class="hidden">
+                <h3 class="font-serif text-xl font-bold text-white mb-4">Configuración General y Enlaces</h3>
+                <form id="site-settings-form" onsubmit="saveSiteSettings(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Enlace de tu Página Web (URL)</label>
+                        <div class="flex gap-2">
+                            <input type="url" id="site-web-url-input" placeholder="https://tutienda.vercel.app" class="flex-1 bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-sm">
+                            <button type="button" onclick="copyWebUrl()" class="px-4 bg-andina-gold/20 border border-andina-gold text-andina-gold rounded-lg text-xs font-bold hover:bg-andina-gold hover:text-andina-dark transition">Copiar</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Logotipo (Archivo)</label>
+                        <input type="file" id="site-logo-file" accept="image/*" onchange="handleLogoFileSelect(event)" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2 text-white text-sm">
+                        <input type="hidden" id="site-logo-input">
+                        <input type="url" id="site-logo-url-text" placeholder="https://..." oninput="document.getElementById('site-logo-input').value = this.value" class="w-full mt-1 bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2 text-white text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Subtítulo *</label>
+                        <input type="text" id="site-subtitle-input" required value="Calzado Artesanal" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Descripción Principal *</label>
+                        <textarea id="site-desc-input" rows="3" required class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Número de WhatsApp *</label>
+                            <input type="text" id="site-phone-input" required placeholder="+593 995142783" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Enlace Directo de WhatsApp (Opcional)</label>
+                            <input type="url" id="site-custom-wa-input" placeholder="https://wa.me/593..." class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white text-xs">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Ubicación *</label>
+                            <input type="text" id="site-location-input" required value="Ecuador" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-andina-goldlight uppercase mb-1">Usuario de TikTok *</label>
+                            <input type="text" id="site-tiktok-input" required placeholder="pisada_andinaec2" class="w-full bg-andina-dark border border-andina-gold/30 rounded-lg px-4 py-2.5 text-white">
+                        </div>
+                    </div>
+                    <div class="pt-4 space-y-3">
+                        <button type="submit" class="btn-3d w-full bg-andina-gold text-andina-dark font-bold py-3.5 rounded-lg shadow-lg">Guardar Cambios en Vivo</button>
+                        <button type="button" onclick="exportLockedVersion()" class="btn-3d w-full bg-gradient-to-r from-indigo-700 to-indigo-900 border-2 border-indigo-400 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 text-sm shadow-xl">
+                            <i class="fa-solid fa-cloud-arrow-up text-indigo-200"></i> Guardar y Descargar Versión para Vercel o Render
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        let initialProducts = [
+            { name: "Botín Andino Clásico", category: "hombre", price: 65.00, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80", desc: "Cuero genuino tratado a mano, suela antideslizante y costuras reforzadas." },
+            { name: "Mocasín Ejecutivo Cuero", category: "hombre", price: 55.00, image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&w=500&q=80", desc: "Elegancia y comodidad insuperable para el día a día formal." },
+            { name: "Zapato Casual Montañés", category: "hombre", price: 70.00, image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=500&q=80", desc: "Diseño robusto inspirado en los caminos andinos." },
+            { name: "Botín Elegante Femenino", category: "mujer", price: 68.00, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=500&q=80", desc: "Estilo sofisticado con tacón cómodo y acabado artesanal fino." },
+            { name: "Zapatilla Urbana Artesanal", category: "mujer", price: 50.00, image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=500&q=80", desc: "Frescura, ligereza y detalles tradicionales únicos." },
+            { name: "Bota Alta Andina", category: "mujer", price: 85.00, image: "https://images.unsplash.com/photo-1508609353989-03f7f75a4d7c?auto=format&fit=crop&w=500&q=80", desc: "Protección total con un glamour inigualable." }
+        ];
+
+        let siteSettings = {
+            webUrl: '',
+            logoUrl: '',
+            subtitle: 'Calzado Artesanal',
+            description: 'Diseños exclusivos, materiales de alta calidad y la dedicación artesanal que tus pies merecen. Encuentra la combinación perfecta entre estilo moderno y resistencia.',
+            phone: '+593 995142783',
+            customWaLink: '',
+            location: 'Ecuador',
+            tiktok: 'pisada_andinaec2'
+        };
+
+        let currentCategory = 'hombre';
+        let products = [];
+        let currentIndex = 0;
+        const ADMIN_PASSWORD = "0959948268";
+
+        let secretClicks = 0;
+        let secretTimer = null;
+        function secretAdminTrigger() {
+            secretClicks++;
+            if (secretTimer) clearTimeout(secretTimer);
+            if (secretClicks >= 5) {
+                secretClicks = 0;
+                promptAdminPassword();
+            } else {
+                secretTimer = setTimeout(() => { secretClicks = 0; }, 1000);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.onload = function() {
+            loadCloudData();
+        };
+
+        function loadCloudData() {
+            const localP = localStorage.getItem('andina_products_v2');
+            const localS = localStorage.getItem('andina_settings_v2');
+            
+            if (localP) {
+                try { products = JSON.parse(localP); } catch(e) { products = initialProducts; }
+            } else {
+                products = initialProducts;
+            }
+
+            if (localS) {
+                try { siteSettings = JSON.parse(localS); } catch(e) {}
+            }
+
+            renderAll();
+        }
+
+        function saveToCloud() {
+            localStorage.setItem('andina_products_v2', JSON.stringify(products));
+            localStorage.setItem('andina_settings_v2', JSON.stringify(siteSettings));
+        }
+
+        function renderAll() {
+            updateSiteContent();
+            renderCarousel();
+            renderAdminProductsList();
+        }
+
+        function updateSiteContent() {
+            document.getElementById('nav-subtitle').innerText = siteSettings.subtitle;
+            document.getElementById('hero-desc').innerText = siteSettings.description;
+            document.getElementById('hero-location-text').innerText = siteSettings.location;
+            document.getElementById('card-location-text').innerText = siteSettings.location;
+            document.getElementById('hero-tiktok-text').innerText = siteSettings.tiktok;
+            document.getElementById('card-tiktok-text').innerText = "@" + siteSettings.tiktok;
+            document.getElementById('hero-tiktok-link').href = `https://www.tiktok.com/@${siteSettings.tiktok}`;
+            document.getElementById('card-tiktok-link').href = `https://www.tiktok.com/@${siteSettings.tiktok}`;
+            
+            const cleanPhone = siteSettings.phone.replace(/\s+/g, '');
+            const waLink = siteSettings.customWaLink || `https://wa.me/${cleanPhone}`;
+            document.getElementById('nav-wa-btn').href = waLink;
+            document.getElementById('mobile-wa-btn').href = waLink;
+            document.getElementById('card-wa-link').href = waLink;
+            document.getElementById('card-phone-text').innerText = siteSettings.phone;
+
+            if (siteSettings.logoUrl) {
+                document.getElementById('logo-img-nav').src = siteSettings.logoUrl;
+                document.getElementById('logo-img-hero').src = siteSettings.logoUrl;
+            }
+        }
+
+        function switchTab(cat) {
+            currentCategory = cat;
+            currentIndex = 0;
+            const btnH = document.getElementById('tab-hombre');
+            const btnM = document.getElementById('tab-mujer');
+            if (cat === 'hombre') {
+                btnH.className = "btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg bg-andina-gold text-andina-dark";
+                btnM.className = "btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg text-andina-gold hover:bg-andina-gold/10";
+            } else {
+                btnM.className = "btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg bg-andina-gold text-andina-dark";
+                btnH.className = "btn-3d px-7 py-3.5 rounded-xl font-serif font-bold text-sm sm:text-base border border-andina-gold flex items-center gap-3 shadow-lg text-andina-gold hover:bg-andina-gold/10";
+            }
+            renderCarousel();
+        }
+
+        function getFilteredProducts() {
+            return products.filter(p => p.category === currentCategory);
+        }
+
+        function renderCarousel() {
+            const track = document.getElementById('carousel-track');
+            track.innerHTML = '';
+            const list = getFilteredProducts();
+
+            if (list.length === 0) {
+                track.innerHTML = `<div class="text-andina-goldlight text-center py-20 font-serif">No hay calzado registrado en esta categoría. Toca 5 veces el título superior para agregar.</div>`;
+                return;
+            }
+
+            if (currentIndex >= list.length) currentIndex = 0;
+
+            list.forEach((p, idx) => {
+                let offset = idx - currentIndex;
+                const total = list.length;
+                
+                if (offset > total / 2) offset -= total;
+                if (offset < -total / 2) offset += total;
+
+                const card = document.createElement('div');
+                card.className = "carousel-3d-card";
+                
+                let transformStyle = "";
+                let zIndex = 10 - Math.abs(offset);
+                let opacity = 1 - Math.abs(offset) * 0.25;
+                if (opacity < 0.2) opacity = 0.2;
+
+                transformStyle = `translateX(${offset * 310}px) translateZ(${-Math.abs(offset) * 120}px) rotateY(${offset * -15}deg)`;
+                if (Math.abs(offset) > 2) opacity = 0;
+
+                card.style.transform = transformStyle;
+                card.style.zIndex = zIndex;
+                card.style.opacity = opacity;
+                card.style.pointerEvents = Math.abs(offset) > 2 ? 'none' : 'auto';
+
+                card.onclick = () => {
+                    if (offset === 0) {
+                        openFullscreenModal(p);
+                    } else {
+                        currentIndex = idx;
+                        renderCarousel();
+                    }
+                };
+
+                card.innerHTML = `
+                    <div class="h-60 w-full bg-black/40 overflow-hidden relative border-b border-andina-gold/30 flex items-center justify-center p-4">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transform hover:scale-110 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80'">
+                        <span class="absolute top-3 right-3 bg-andina-dark/90 border border-andina-gold text-andina-gold text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-widest">$${parseFloat(p.price).toFixed(2)}</span>
+                    </div>
+                    <div class="p-5 flex flex-col justify-between flex-1">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-white line-clamp-1">${p.name}</h3>
+                            <p class="text-andina-goldlight/70 text-xs mt-1 line-clamp-2">${p.desc || 'Calzado exclusivo hecho a mano.'}</p>
+                        </div>
+                        <button class="w-full py-2.5 bg-gradient-to-r from-andina-gold to-andina-golddark text-andina-dark font-bold rounded-lg text-xs tracking-wider uppercase mt-2 shadow">
+                            Ver Pantalla Gigante
+                        </button>
+                    </div>
+                `;
+                track.appendChild(card);
+            });
+        }
+
+        function rotateCarousel(dir) {
+            const list = getFilteredProducts();
+            if (list.length === 0) return;
+            currentIndex = (currentIndex + dir + list.length) % list.length;
+            renderCarousel();
+        }
+
+        function openFullscreenModal(p) {
+            document.getElementById('modal-zoom-img').src = p.image;
+            document.getElementById('modal-zoom-cat').innerText = p.category.toUpperCase();
+            document.getElementById('modal-zoom-title').innerText = p.name;
+            document.getElementById('modal-zoom-price').innerText = `$${parseFloat(p.price).toFixed(2)}`;
+            document.getElementById('modal-zoom-desc').innerText = p.desc || 'Diseño artesanal exclusivo con acabados de primera calidad.';
+            
+            const cleanPhone = siteSettings.phone.replace(/\s+/g, '');
+            const waUrl = siteSettings.customWaLink || `https://wa.me/${cleanPhone}?text=Hola,%20estoy%20interesado%20en%20el%20calzado:%20${encodeURIComponent(p.name)}%20($${p.price})`;
+            document.getElementById('modal-zoom-wa-btn').href = waUrl;
+
+            document.getElementById('fullscreen-product-modal').classList.remove('hidden');
+        }
+
+        function closeFullscreenModal() {
+            document.getElementById('fullscreen-product-modal').classList.add('hidden');
+        }
+
+        function promptAdminPassword() {
+            const pass = prompt("🔐 Ingrese la contraseña de Administrador:");
+            if (pass === ADMIN_PASSWORD) {
+                toggleAdminModal();
+            } else if (pass !== null) {
+                alert("Contraseña incorrecta.");
+            }
+        }
+
+        function toggleAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderAdminProductsList();
+                loadSettingsIntoForm();
+            }
+        }
+
+        function switchAdminTab(tab) {
+            const prodSec = document.getElementById('admin-sec-products');
+            const siteSec = document.getElementById('admin-sec-site');
+            const tabProd = document.getElementById('admin-tab-prod');
+            const tabSite = document.getElementById('admin-tab-site');
+
+            if (tab === 'products') {
+                prodSec.classList.remove('hidden');
+                siteSec.classList.add('hidden');
+                tabProd.className = "pb-3 text-andina-gold font-serif font-bold text-base border-b-2 border-andina-gold";
+                tabSite.className = "pb-3 text-andina-goldlight/60 hover:text-andina-gold font-serif font-bold text-base border-b-2 border-transparent";
+            } else {
+                prodSec.classList.add('hidden');
+                siteSec.classList.remove('hidden');
+                tabSite.className = "pb-3 text-andina-gold font-serif font-bold text-base border-b-2 border-andina-gold";
+                tabProd.className = "pb-3 text-andina-goldlight/60 hover:text-andina-gold font-serif font-bold text-base border-b-2 border-transparent";
+            }
+        }
+
+        function renderAdminProductsList() {
+            const listContainer = document.getElementById('admin-products-list');
+            listContainer.innerHTML = '';
+            
+            products.forEach((p, index) => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between bg-andina-dark p-3 rounded-lg border border-andina-gold/20";
+                item.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${p.image}" class="w-10 h-10 object-cover rounded border border-andina-gold/40">
+                        <div>
+                            <h5 class="text-white font-bold text-sm">${p.name}</h5>
+                            <span class="text-xs text-andina-gold">$${parseFloat(p.price).toFixed(2)} (${p.category})</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editProduct(${index})" class="px-2.5 py-1 bg-andina-gold/20 border border-andina-gold text-andina-gold rounded text-xs">Editar</button>
+                        <button onclick="deleteProduct(${index})" class="px-2.5 py-1 bg-red-900/40 border border-red-500 text-red-300 rounded text-xs">Borrar</button>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('prod-id').value = '';
+            document.getElementById('product-form').reset();
+            document.getElementById('modal-title').innerText = "Nuevo Calzado";
+        }
+
+        function editProduct(index) {
+            const p = products[index];
+            document.getElementById('prod-id').value = index;
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-image').value = p.image;
+            document.getElementById('prod-image-url-text').value = p.image;
+            document.getElementById('prod-desc').value = p.desc || '';
+            document.getElementById('modal-title').innerText = "Editar Calzado";
+        }
+
+        function handleProductFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('prod-image').value = e.target.result;
+                    document.getElementById('prod-image-url-text').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleLogoFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('site-logo-input').value = e.target.result;
+                    document.getElementById('site-logo-url-text').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProduct(event) {
+            event.preventDefault();
+            const id = document.getElementById('prod-id').value;
+            const name = document.getElementById('prod-name').value;
+            const category = document.getElementById('prod-category').value;
+            const price = parseFloat(document.getElementById('prod-price').value);
+            let image = document.getElementById('prod-image').value || document.getElementById('prod-image-url-text').value;
+            if (!image) {
+                image = "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=400&q=80";
+            }
+            const desc = document.getElementById('prod-desc').value;
+
+            const newProd = { name, category, price, image, desc };
+
+            if (id === '') {
+                products.push(newProd);
+            } else {
+                products[parseInt(id)] = newProd;
+            }
+
+            saveToCloud();
+            renderAll();
+            document.getElementById('product-form').reset();
+            document.getElementById('prod-id').value = '';
+            document.getElementById('modal-title').innerText = "Gestionar Catálogo";
+            alert("¡Zapato guardado con éxito!");
+        }
+
+        function deleteProduct(index) {
+            if (confirm("¿Estás seguro de eliminar este calzado?")) {
+                products.splice(index, 1);
+                saveToCloud();
+                renderAll();
+            }
+        }
+
+        function loadSettingsIntoForm() {
+            document.getElementById('site-web-url-input').value = siteSettings.webUrl || window.location.href;
+            document.getElementById('site-logo-input').value = siteSettings.logoUrl;
+            document.getElementById('site-logo-url-text').value = siteSettings.logoUrl;
+            document.getElementById('site-subtitle-input').value = siteSettings.subtitle;
+            document.getElementById('site-desc-input').value = siteSettings.description;
+            document.getElementById('site-phone-input').value = siteSettings.phone;
+            document.getElementById('site-custom-wa-input').value = siteSettings.customWaLink;
+            document.getElementById('site-location-input').value = siteSettings.location;
+            document.getElementById('site-tiktok-input').value = siteSettings.tiktok;
+        }
+
+        function saveSiteSettings(event) {
+            event.preventDefault();
+            siteSettings.webUrl = document.getElementById('site-web-url-input').value;
+            const logo = document.getElementById('site-logo-input').value || document.getElementById('site-logo-url-text').value;
+            if (logo) siteSettings.logoUrl = logo;
+            siteSettings.subtitle = document.getElementById('site-subtitle-input').value;
+            siteSettings.description = document.getElementById('site-desc-input').value;
+            siteSettings.phone = document.getElementById('site-phone-input').value;
+            siteSettings.customWaLink = document.getElementById('site-custom-wa-input').value;
+            siteSettings.location = document.getElementById('site-location-input').value;
+            siteSettings.tiktok = document.getElementById('site-tiktok-input').value;
+
+            saveToCloud();
+            updateSiteContent();
+            alert("¡Configuración general guardada!");
+        }
+
+        function copyWebUrl() {
+            const urlInput = document.getElementById('site-web-url-input');
+            urlInput.select();
+            document.execCommand('copy');
+            alert("¡Enlace copiado al portapapeles!");
+        }
+
+        function exportLockedVersion() {
+            let markup = document.documentElement.outerHTML;
+            
+            markup = markup.replace(
+                /let initialProducts = \[[\s\S]*?\];/, 
+                `let initialProducts = ${JSON.stringify(products, null, 2)};`
+            );
+            markup = markup.replace(
+                /let siteSettings = \{[\s\S]*?\};/, 
+                `let siteSettings = ${JSON.stringify(siteSettings, null, 2)};`
+            );
+
+            const blob = new Blob([markup], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            toggleAdminModal();
+            
+            alert("✅ ¡Versión definitiva descargada! El panel de administración se ha cerrado automáticamente.");
+        }
+
+        function handleAppointmentSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('app-name').value;
+            const phone = document.getElementById('app-phone').value;
+            const date = document.getElementById('app-date').value;
+            const time = document.getElementById('app-time').value;
+            const notes = document.getElementById('app-notes').value;
+
+            const msg = `Hola, deseo agendar una cita o realizar un pedido:\n\n👤 Nombre: ${name}\n📞 Teléfono: ${phone}\n📅 Fecha: ${date}\n⏰ Hora: ${time}\n📝 Notas: ${notes}`;
+            const cleanPhone = siteSettings.phone.replace(/\s+/g, '');
+            const waUrl = siteSettings.customWaLink || `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
+            window.open(waUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
